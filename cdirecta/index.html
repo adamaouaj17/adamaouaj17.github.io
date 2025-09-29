@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Càlcul de la posició d'un robot</title>
+<script type="text/javascript" async
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js">
+</script>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 20px;
+.equation ( margin: 20px 0;
+}
+.results {
+font-weight: bold;
+} /* Oculta els elements de sortida per defecte */
+#output, #robotCanvas {
+}
+display: none;
+canvas {
+border: 1px solid black;
+} </style>
+</head>
+<body> <h1>Càlcul de la posició d'un robot amb dos braços</h1
+<div>
+<label for="a1">Longitud del primer braç (a₁):</label>
+<input type="number" id="a1" value="1" step="0.1"><br><br>
+<label for="a2">Longitud del segon braç (a₂):</label>
+<input type="number" id="a2" value="0.5" step="0.1"><br><br>
+<label for="q1">Angle del primer braç (q₁, en graus):</label>
+<input type="number" id="q1" value="45" step="0.1"><br><br>
+<label for="q2">Angle del segon braç (q2, en graus): </label>
+<input type="number" id="q2" value="30" step="0.1"><br><br>
+<button onclick="calculatePosition()">Calcula la posició</button>
+</div>
+<div id="output"></div>
+<canvas id="robotCanvas" width="400" height="400"></canvas>
+<script>
+function calculate Position() {
+// Agafar les dades introduïdes per l'usuari
+let a1 = parseFloat(document.getElementById('a1').value);
+let a2 = parseFloat(document.getElementById('a2').value);
+
+let q1_deg = parseFloat(document.getElementByld(q1').value); // Grados
+let q2_deg = parseFloat(document. getElementByld(q2').value); // Grados
+let ql = q1_deg * Math.PI/ 180; // Convertir graus a radians
+let q2 = q2_deg * Math.PI / 180; // Convertir graus a radians
+// **Mostrar els contenidors de sortida**
+document.getElementById('output').style.display = 'block';
+document. getElementById(robotCanvas').style.display = 'block";
+// Fase 1: Fórmules
+let output = "<div class='equation'> Les equacions per calcular la posició final del robot
+són:</div>";
+output += "«div class='equation'> I x = a_1 lIcos(q_1) + a_2 lcos(q_1 + q_2) I</div›*;
+output += "<div class-'equation'> I y = a_1 Isin(q_1) + a _2 sin(q_1 + 4_2) |J</div>";
+// Fase 2: Substituir les variables
+output += "<div class='equation'> Substituint els valors:</div>";
+output += «div class='equation'> I x = S(a1) lIcos(S(q1_deg}º) + S(a2} IIcos(S(q1_deg)°
++ S(q2_deg}°) W</div>;
+output += <div class='equation'> IVy = S(al} |Isin(S(q1_deg)º) + S(a2) |sin(S{q1_deg)°
++ S{q2_deg)°) W</div>;
+// Fase 3: Calcul numèric detallat
+let x1 = a1 * Math.cos(q1);
+let x2 = a2 * Math.cos(q1 + q2);
+let y 1 = al * Math.sin(q1);
+let y2 = a2 * Math.sin(ql + q2);
+output += "<div class='equation'> Desglossant els calculs:</div>";
+output += <div class='equation'>[ x_ 1 = a_1 licos(q_1) = S{al} litimes I\cos(S{q1_deg)°)
+= S{x1.toFixed(2)} I</div>;
+output += <div class='equation'> I x_2 = a_2 llcos(q_1 + q_2) = S(a2) litimes licos($
+(q1_deg)° + S(q2_deg)°) = S(x2.toFixed(2)) I</div>;
+output += <div class='equation> Wy_1 = a_1 lIsin(q_1) = S{al) Itimes Isin(S{ql_deg)°)
+= S(yl.toFixed(2)} I</div>;
+output += <div class='equation'>I\ y_2 = a_2 lIsin(q_1 + q_2) = S(a2) ltimes IIsin(S
+(q1_deg)° + S(q2_deg)°) = S(y2.toFixed(2)} W</div>;
+// Resultat final
+let x = x1 + x2;
+let y = y1 + y2;
+output += "<div class='equation'> Calculant els resultats numèrics totals:</div>";
+output += <div class='equation'> x = S{x.toFixed(2)} W</div> ;
+output += <div class='equation'> Wy = ${y.toFixed(2)} W</div> ;
+// Mostrar el resultat
+document.getElementByld('output').innerHTML = output;
+MathJax.typesetO; // Renderitzar MathJax per mostrar les fórmules correctament // Fase 4: Part gràfica
+let canvas = document.getElementByld(robotCanvas );
+let ctx = canvas.getContext('2d*);
+
+
+
+
+
+ctx. clearRect(0, 0, canvas.width, canvas.height); // Netejar canvas
+// Centre i escales
+let centerX = canvas.width / 2;
+let centerY = canvas height / 2;
+let scale = 80;
+// Coordenades
+let x1_screen = centerX + x1 * scale;
+let y 1_screen = centerY - y1 * scale;
+let x2_screen = centerX + x * scale;
+let y2_screen = centerY - y * scale;
+// Dibuixar braç 1
+ctx.beginPath0;
+ctx.moveTo(centerX, centerY);
+ctx.lineTo(x1_screen, y1_screen);
+ctx.strokeStyle = 'blue';
+ctx.lineWidth = 5;
+ctx.stroke0;
+// Dibuixar braç 2
+ctx.beginPath(;
+ctx.movelo(x1_screen, y 1_screen);
+ctx. line To(x2_screen, y2_screen);
+ctx.strokeStyle = 'green';
+ctx. line Width = 5;
+ctx.stroke0;
+// Dibuixar els cercles als extrems
+ctx.beginPathQ;
+ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI); // Base del braç
+ctx. fillStyle = 'red';
+ctx.fillO;
+ctx.beginPathQ;
+ctx.arc(x1_screen, y1_screen, 5, 0, 2 * Math.PI); // Final del primer braç
+ctx. fillStyle = 'red';
+ctx.fillO;
+ctx.beginPathQ;
+ctx.arc(x2_screen, y2_screen, 5, 0, 2 * Math.PI); // Final del segon braç
+ctx.fillStyle = 'red';
+ctx. fillO;
+</script>
